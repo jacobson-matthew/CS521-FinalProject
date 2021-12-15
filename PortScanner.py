@@ -5,23 +5,26 @@ import socket
 
 def pingScan(url):
     address = socket.gethostbyname(url)
-    openPorts = [0]*5041
-    for port in range(1, 5041):
+    count = 0
+    print("Ping Scan:")
+    for port in range(1, 100):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket.setdefaulttimeout(0.004)
         result = s.connect_ex((address, port))
         if result == 0:
-            openPorts[port] = 1
-            print("Port {} is open".format(port))
+            print("Port "+str(port)+" is open.")
+            count += 1
         s.close()
+    print("Ping Scan Complete. "+str(count)+" ports found.")
 
 
 
 def tcpHalfOpen(ip):
     # initialize the port scanner
+    print("TCP Half-Open Scan:")
     nmScan = nmap.PortScanner()
 
-    nmScan.scan(ip, '1-5041')
+    nmScan.scan(ip, '1-100')
 
     # run a loop to print all the found result about the ports
     for host in nmScan.all_hosts():
